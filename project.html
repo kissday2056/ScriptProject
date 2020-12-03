@@ -3,10 +3,49 @@
   <head>
     <meta charset="utf-8">
     <title>아 제발좀 한번에 되라</title>
+    <style>
+      /*h1 글/*/
+      h1 {
+      text-align: center;
+      }
+    /*이건 안에 내용 입력*/
+      input {
+        width: 60px;
+        padding: 10px;
+        color: gray;
+        text-align: right;
+      }
+      /*h2 글/*/
+      h2 {
+        border: 1px solid gray;
+        text-align: center;
+      }
+      /*이건 div로 묶은거 */
+      div#ffff {
+        position: absolute;
+        left:45%;
+      }
+      </style>
   </head>
   <body>
-    <input type="text" id="first" value="0">
+    <h1>스크립트 프로젝트</h1>
+    <!--금액 표시 영역이랑 금액 설정 버튼 키보드 어떤 값도 입력 안되게 -->
+    <h2>금액을 설정해주세용</h2>
+    <div id="ffff">
+      <input type="text" id="first" value="0" onkeydown="input(event)"><input type ='button' onclick='input_text()' value='Check'/>
+    </div>
     <script>
+    //금액설정 버튼임 1,000 ~ 100,000원 사이 금액 표시 (천원단위), 천원다위마다 콤마(,) 표시
+    function input_text() { //클릭시 값 입력되게
+       var iiii = Math.floor(Math.random() *100) * 1000;
+       var iiiii = Math.round(iiii);
+        document.getElementById("first").value = iiii.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    //키보드 입력안되게 설정하기 함수로 한 이유는 다른설정도 할 수 도 있으니깐 ;
+    function input(event) {
+      event.preventDefault();
+    }
+
     </script>
   </body>
 </html>
