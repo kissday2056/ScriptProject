@@ -14,6 +14,8 @@
         padding: 10px;
         color: gray;
         text-align: right;
+        color: black;
+
       }
       /*h2 글/*/
       h2 {
@@ -23,7 +25,10 @@
       /*이건 div로 묶은거 */
       div#ffff {
         position: absolute;
-        left:45%;
+        left:43%;
+      }
+      p#pp {
+        text-align: center;
       }
       </style>
   </head>
@@ -32,7 +37,7 @@
     <!--금액 표시 영역이랑 금액 설정 버튼 키보드 어떤 값도 입력 안되게 -->
     <h2>금액을 설정해주세용</h2>
     <div id="ffff">
-      <input type="text" id="first" value="0" onkeydown="input(event)"><input type ='button' onclick='input_text()' value='Check'/>
+    <p>Amount: <input type="text" id="first" value="0" style="background-color: skyblue" onkeydown="input(event)"> <input type ='button' onclick='input_text()' value='Check'/></p>
     </div>
     <script>
     //금액설정 버튼임 1,000 ~ 100,000원 사이 금액 표시 (천원단위), 천원다위마다 콤마(,) 표시
