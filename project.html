@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>아 제발좀 한번에 되라</title>
+    <script src="jquery-3.5.1.min.js"></script>
     <style>
       /*h1 글/*/
       h1 {
@@ -10,47 +11,82 @@
       }
     /*이건 안에 내용 입력*/
       input {
-        width: 60px;
+        width: 100px;
         padding: 10px;
         color: gray;
-        text-align: right;
         color: black;
-
       }
       /*h2 글/*/
       h2 {
-        border: 1px solid gray;
         text-align: center;
       }
       /*이건 div로 묶은거 */
       div#ffff {
         position: absolute;
-        left:43%;
+        left:42%;
+      }
+      div#qqqq {
+        position: absolute;
+        left:39.3%;
+        top:20%;
       }
       p#pp {
         text-align: center;
+      }
+      div#wwww {
+        position: absolute;
+        left: 38%;
+        top: 29%;
       }
       </style>
   </head>
   <body>
     <h1>스크립트 프로젝트</h1>
     <!--금액 표시 영역이랑 금액 설정 버튼 키보드 어떤 값도 입력 안되게 -->
-    <h2>금액을 설정해주세용</h2>
+    <h2>201620903 박민규</h2>
     <div id="ffff">
-    <p>Amount: <input type="text" id="first" value="0" style="background-color: skyblue" onkeydown="input(event)"> <input type ='button' onclick='input_text()' value='Check'/></p>
+    <p>Amount: <input type="text" id="first" value="0" style="background-color: skyblue; text-align: right" onkeydown="input(event)"> <input type ='button' style = "text-align: center" onclick='input_text()' value='Check'/></p>
+    </div>
+    <!--휴대폰번호 표시 영역 -->
+    <div id="qqqq">
+    <p>Phone Number: <input type="text" id="Second" class="Two" value="010-" style="background-color: blue" > <input type ='button' style = "text-align: center"onclick='input_text2()' value='Save'/></p>
+    <hr>
+    </div>
+    <hr>
+    <!--숫자패드-->
+    <div id="wwww">
+    <button id="btn0" style = "text-align: center; padding:5px; width:40px" disabled="disabled">010</button>
+    <button id="btn1" style = "text-align: center; padding:5px; width:25px" onclick='send(1)'>1</button>
+    <button id="btn2" style = "text-align: center; padding:5px; width:25px" onclick='send(2)'>2</button>
+    <button id="btn3" style = "text-align: center; padding:5px; width:25px" onclick='send(3)'>3</button>
+    <button id="btn4" style = "text-align: center; padding:5px; width:25px" onclick='send(4)'>4</button>
+    <button id="btn5" style = "text-align: center; padding:5px; width:25px" onclick='send(5)'>5</button>
+    <button id="btn6" style = "text-align: center; padding:5px; width:25px" onclick='send(6)'>6</button>
+    <button id="btn7" style = "text-align: center; padding:5px; width:25px" onclick='send(7)'>7</button>
+    <button id="btn8" style = "text-align: center; padding:5px; width:25px" onclick='send(8)'>8</button>
+    <button id="btn9" style = "text-align: center; padding:5px; width:25px" onclick='send(9)'>9</button>
+    <button id="btnX" style = "text-align: center; padding:5px; width:25px; background-color: pink" onclick='input_text12()'>X</button>
+    <button id="btnC" style = "text-align: center; padding:5px; width:25px; background-color: skyblue" onclick='input_text13()'>C</button>
+    <hr>
     </div>
     <script>
     //금액설정 버튼임 1,000 ~ 100,000원 사이 금액 표시 (천원단위), 천원다위마다 콤마(,) 표시
     function input_text() { //클릭시 값 입력되게
        var iiii = Math.floor(Math.random() *100) * 1000;
-       var iiiii = Math.round(iiii);
         document.getElementById("first").value = iiii.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     //키보드 입력안되게 설정하기 함수로 한 이유는 다른설정도 할 수 도 있으니깐 ;
     function input(event) {
       event.preventDefault();
+    }//$(ele).val(parseInt($(ele).val())+"010-"+"1");
+    //반환해서 숫자를 + 하도록 했음
+    function send(data) {
+      var qwer = document.getElementById("Second");
+      if(qwer.value.length ===5) {
+        Second.value = Second.value+"-";
+      }
+      Second.value = Second.value +data;
     }
-
     </script>
   </body>
 </html>
