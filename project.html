@@ -36,13 +36,31 @@
       }
       div#wwww {
         position: absolute;
-        left: 40.5%;
+        left: 38.5%;
         top: 34%;
       }
       div#eeee {
         position: absolute;
         left: 50%;
         top: 37%;
+      }
+      th, td{
+        border: 1px solid gray;
+        width: 200px;
+        padding: 5px;
+      }
+      th{
+        background-color: gray;
+      }
+      table {
+        position: absolute;
+        left:40%;
+        top:40%;
+      }
+      h1#ming{
+        position: absolute;
+        left:40%;
+        top:41%;
       }
       </style>
   </head>
@@ -75,8 +93,18 @@
     <button id="btn9" style = "text-align: center; padding:5px; width:25px" onclick='send(9)'>9</button>
     <button id="btnX" style = "text-align: center; padding:5px; width:25px; background-color: pink" onclick='delet()'>X</button>
     <button id="btnC" input type = "Second" value = "010-"style = "text-align: center; padding:5px; width:25px; background-color: skyblue" onclick='reset()'>C</button>
+    <button id="showAll" style = "text-align: center" onclick='add_row()'>ShowAll</button>
+    <button id="deletRow1" style = "text-align: center" onclick='delete_row()'>deletRow</button>
     <hr>
     </div>
+    <table>
+      <thead>
+        <th>사용자</th>
+        <th>적립횟수</th>
+      </thead>
+      <tbody id="my-Tbody">
+      </tbody>
+    </table>
     <script>
     //금액설정 버튼임 1,000 ~ 100,000원 사이 금액 표시 (천원단위), 천원다위마다 콤마(,) 표시
     function input_text() { //클릭시 값 입력되게
@@ -124,7 +152,6 @@
         }
         //저장하기
         let v = parseInt(document.getElementById("first").value.replace(",",""));
-
         if(localStorage.getItem(document.getElementById("Second").value) === null){
         localStorage.setItem(document.getElementById("Second").value, parseInt(document.getElementById("first").value.replace(",","")));
       } else {
@@ -132,7 +159,7 @@
         let sum = parseInt(v + key);
        localStorage.setItem(document.getElementById("Second").value, sum);
      }
-     document.getElementById("qwe123").innerHTML="사용자 : "+document.getElementById("Second").value +"<br>" +"사용금액: "+localStorage.getItem(document.getElementById("Second").value);
+     document.getElementById("qwe123").innerHTML="사용자 : "+document.getElementById("Second").value+"<br>"+"사용금액: "+localStorage.getItem(document.getElementById("Second").value);
       });
       //삭제버튼
       $('#cancelBtn').click(function(){
@@ -143,7 +170,6 @@
         }
         //저장하기
         let v = parseInt(document.getElementById("first").value.replace(",",""));
-
         if(localStorage.getItem(document.getElementById("Second").value) === null){
           return false;
         //localStorage.setItem(document.getElementById("Second").value, parseInt(document.getElementById("first").value.replace(",","")));
@@ -154,8 +180,25 @@
      }
      document.getElementById("qwe123").innerHTML="사용자 : "+document.getElementById("Second").value +"<br>" +"사용금액: "+localStorage.getItem(document.getElementById("Second").value);
       });
-
     })
+    //행 추가 버튼
+    function add_row() {
+      for(let i=0; i<localStorage.length; i++) {
+        let key = localStorage.key(i);
+        var my_tbody = document.getElementById("my-Tbody");
+        var row = my_tbody.insertRow( my_tbody.rows.length );
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML= `${key}`;
+        cell2.innerHTML=`${localStorage.getItem(key)}`;
+              }
+        }
+    //행 삭제 버튼
+      function delete_row() {
+        var my_tbody = document.getElementById('my-Tbody');
+        my_tbody.deleteRow( my_tbody.rows.length-1 ); // 하단부터 삭제
+      }
+
     </script>
   </body>
 </html>
