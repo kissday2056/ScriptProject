@@ -24,48 +24,46 @@
       div#ffff {
         position: absolute;
         left:42%;
+        top:20%;
       }
       div#qqqq {
         position: absolute;
         left:39.3%;
-        top:20%;
+        top:25%;
       }
       p#pp {
         text-align: center;
       }
       div#wwww {
         position: absolute;
-        left: 38%;
-        top: 29%;
+        left: 40.5%;
+        top: 34%;
       }
       div#eeee {
         position: absolute;
         left: 50%;
-        top: 32%;
+        top: 37%;
       }
       </style>
   </head>
   <body>
     <h1>스크립트 프로젝트</h1>
     <!--금액 표시 영역이랑 금액 설정 버튼 키보드 어떤 값도 입력 안되게 -->
-    <h2>201620903 박민규</h2>
+    <h2 id = qwe123>201620903 박민규</h2>
     <h2 class = 'input_text2()'></h2>
     <div id="ffff">
     <p>Amount: <input type="text" id="first" value="0" style="background-color: skyblue; text-align: right" onkeydown="input(event)"> <input type ='button' style = "text-align: center" onclick='input_text()' value='Check'/></p>
     </div>
     <!--휴대폰번호 표시 영역 -->
     <div id="qqqq">
-    <p>Phone Number: <input type="text" id="Second" value="010-" style="background-color: blue" onkeydown="input(event)" > <input type ='button' style = "text-align: center" id="saveBtn" value='Save'/></p>
+    <p>Phone Number: <input type="text" id="Second" value="010-" style="background-color: blue" onkeydown="input(event)" > <input type ='button' style = "text-align: center" id="saveBtn" value='Save'/> <input type ='button' style = "text-align: center" id="cancelBtn" value='Cancel'/></p>
     <hr>
-    </div>
-    <!--사용자보기 영역 -->
-    <div id="eeee">
-    <p>User: <input type ='button' style = "text-align: center" id="showbtn" value='확인하기'/></p>
     </div>
     <hr>
     <!--숫자패드-->
     <div id="wwww">
     <button id="btn0" style = "text-align: center; padding:5px; width:40px" disabled="disabled">010</button>
+    <button id="btn1" style = "text-align: center; padding:5px; width:25px" onclick='send(0)'>0</button>
     <button id="btn1" style = "text-align: center; padding:5px; width:25px" onclick='send(1)'>1</button>
     <button id="btn2" style = "text-align: center; padding:5px; width:25px" onclick='send(2)'>2</button>
     <button id="btn3" style = "text-align: center; padding:5px; width:25px" onclick='send(3)'>3</button>
@@ -117,6 +115,7 @@
     }
     //데이터 저장하기
     $(function(){
+      //저장버튼
       $('#saveBtn').click(function(){
         if(!window.localStorage) {
           //브라우저 지원 확인
@@ -124,12 +123,36 @@
           return false;
         }
         //저장하기
-        localStorage.test2 = document.getElementById("Second").value;
-        localStorage.test1 = parseInt(localStorage.test1)+parseInt(document.getElementById("first").value.replace(",",""));
+        let v = parseInt(document.getElementById("first").value.replace(",",""));
+
+        if(localStorage.getItem(document.getElementById("Second").value) === null){
+        localStorage.setItem(document.getElementById("Second").value, parseInt(document.getElementById("first").value.replace(",","")));
+      } else {
+      let key = parseInt(localStorage.getItem(document.getElementById("Second").value));
+        let sum = parseInt(v + key);
+       localStorage.setItem(document.getElementById("Second").value, sum);
+     }
+     document.getElementById("qwe123").innerHTML="사용자 : "+document.getElementById("Second").value +"<br>" +"사용금액: "+localStorage.getItem(document.getElementById("Second").value);
       });
-      //보기버튼
-      $('#showbtn').click(function() {
-        alert("--저장된 정보--\r\n"+"사용자 : " +localStorage.test2+"\r\n"+"금액 : "+localStorage.test1.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      //삭제버튼
+      $('#cancelBtn').click(function(){
+        if(!window.localStorage) {
+          //브라우저 지원 확인
+          alert("현재 브라우저는 지원하지 않습니다.");
+          return false;
+        }
+        //저장하기
+        let v = parseInt(document.getElementById("first").value.replace(",",""));
+
+        if(localStorage.getItem(document.getElementById("Second").value) === null){
+          return false;
+        //localStorage.setItem(document.getElementById("Second").value, parseInt(document.getElementById("first").value.replace(",","")));
+      } else {
+      let key = parseInt(localStorage.getItem(document.getElementById("Second").value));
+        let sum = parseInt(key-v);
+       localStorage.setItem(document.getElementById("Second").value, sum);
+     }
+     document.getElementById("qwe123").innerHTML="사용자 : "+document.getElementById("Second").value +"<br>" +"사용금액: "+localStorage.getItem(document.getElementById("Second").value);
       });
 
     })
