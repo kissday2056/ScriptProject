@@ -38,19 +38,29 @@
         left: 38%;
         top: 29%;
       }
+      div#eeee {
+        position: absolute;
+        left: 50%;
+        top: 32%;
+      }
       </style>
   </head>
   <body>
     <h1>스크립트 프로젝트</h1>
     <!--금액 표시 영역이랑 금액 설정 버튼 키보드 어떤 값도 입력 안되게 -->
     <h2>201620903 박민규</h2>
+    <h2 class = 'input_text2()'></h2>
     <div id="ffff">
     <p>Amount: <input type="text" id="first" value="0" style="background-color: skyblue; text-align: right" onkeydown="input(event)"> <input type ='button' style = "text-align: center" onclick='input_text()' value='Check'/></p>
     </div>
     <!--휴대폰번호 표시 영역 -->
     <div id="qqqq">
-    <p>Phone Number: <input type="text" id="Second" class="Two" value="010-" style="background-color: blue" > <input type ='button' style = "text-align: center"onclick='input_text2()' value='Save'/></p>
+    <p>Phone Number: <input type="text" id="Second" value="010-" style="background-color: blue" onkeydown="input(event)" > <input type ='button' style = "text-align: center" id="saveBtn" value='Save'/></p>
     <hr>
+    </div>
+    <!--사용자보기 영역 -->
+    <div id="eeee">
+    <p>User: <input type ='button' style = "text-align: center" id="showbtn" value='확인하기'/></p>
     </div>
     <hr>
     <!--숫자패드-->
@@ -65,8 +75,8 @@
     <button id="btn7" style = "text-align: center; padding:5px; width:25px" onclick='send(7)'>7</button>
     <button id="btn8" style = "text-align: center; padding:5px; width:25px" onclick='send(8)'>8</button>
     <button id="btn9" style = "text-align: center; padding:5px; width:25px" onclick='send(9)'>9</button>
-    <button id="btnX" style = "text-align: center; padding:5px; width:25px; background-color: pink" onclick='input_text12()'>X</button>
-    <button id="btnC" style = "text-align: center; padding:5px; width:25px; background-color: skyblue" onclick='input_text13()'>C</button>
+    <button id="btnX" style = "text-align: center; padding:5px; width:25px; background-color: pink" onclick='delet()'>X</button>
+    <button id="btnC" input type = "Second" value = "010-"style = "text-align: center; padding:5px; width:25px; background-color: skyblue" onclick='reset()'>C</button>
     <hr>
     </div>
     <script>
@@ -78,15 +88,51 @@
     //키보드 입력안되게 설정하기 함수로 한 이유는 다른설정도 할 수 도 있으니깐 ;
     function input(event) {
       event.preventDefault();
-    }//$(ele).val(parseInt($(ele).val())+"010-"+"1");
+    }
     //반환해서 숫자를 + 하도록 했음
+    //문자열 길이 확인후 - 대입 했음
+    //최대로 입력했는데도 더 번호 입력하면 경고차 뛰우게 했음
     function send(data) {
       var qwer = document.getElementById("Second");
-      if(qwer.value.length ===5) {
+      if(qwer.value.length ===8) {
         Second.value = Second.value+"-";
+      }
+      if(qwer.value.length ===13) {
+        return alert('휴대폰번호를 최대로 입력하셨습니다.');
       }
       Second.value = Second.value +data;
     }
+    //X버튼 뒷자리 1개씩 삭제하게
+    //최대 13자리니까 그 이하일때 조건 했음 머리 터질뻔;;이게 젤 어렵네slice 쓰는법을 몰라가지고;
+    function delet() {
+      var qwerr = document.getElementById("Second");
+      if(qwerr.value.length <=13) {
+        document.getElementById("Second").value = qwerr.value.slice(0,-1);
+      }
+    }
+    //초기화 버튼 C 구현하기
+    function reset() {
+      var resett = "010-";
+      document.getElementById("Second").value = resett;
+    }
+    //데이터 저장하기
+    $(function(){
+      $('#saveBtn').click(function(){
+        if(!window.localStorage) {
+          //브라우저 지원 확인
+          alert("현재 브라우저는 지원하지 않습니다.");
+          return false;
+        }
+        //저장하기
+        localStorage.test2 = document.getElementById("Second").value;
+        localStorage.test1 = parseInt(localStorage.test1)+parseInt(document.getElementById("first").value.replace(",",""));
+      });
+      //보기버튼
+      $('#showbtn').click(function() {
+        alert("--저장된 정보--\r\n"+"사용자 : " +localStorage.test2+"\r\n"+"금액 : "+localStorage.test1.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      });
+
+    })
     </script>
   </body>
 </html>
