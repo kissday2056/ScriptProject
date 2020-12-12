@@ -60,6 +60,15 @@
       div#admin {
         text-align: center;
       }
+      th, td{
+        border: 1px solid gray;
+        width: 200px;
+        padding: 5px;
+        text-align: center;
+      }
+      table {
+        margin: auto;
+      }
     }
 
     </style>
@@ -70,8 +79,9 @@
       <h1 id = "h1">Java Script Project</h1>
     <hr>
       <p id="img"><img src="사용자이미지.PNG" width="100"/></p>
+      <hr>
     <div id="much">
-      <label for="fname">How Much ? </label>
+      <label for="fname">Please select Much</label>
       <h4><input type="text" id="input" value="0." onkeydown="input(event)"></h4>
     </div>
     <div id="phone">
@@ -100,14 +110,24 @@
     </div>
     <div id="button_5">
       <button type="button" class="btn btn-info" onclick='input_text()'>Much</button>
-      <button type="button" class="btn" onclick='delet()'>Save</button>
-      <button type="button" class="btn btn-danger" onclick='reset()'>Cancel</button>
+      <button type="button" id="saveBtn"class="btn">Save</button>
+      <button type="button" id="deletBtn"class="btn btn-danger">Delet</button>
+      <button type="button" id="cancelBtn"class="btn btn-danger">Cancel</button>
     </div>
     <hr>
     <div id="admin">
-      <button id="showAll" style = "text-align: center" class="btn btn-default btn-lg" onclick='add_row()'>ShowAll</button>
-      <button id="deletRow1" style = "text-align: center" class="btn btn-default btn-lg" onclick='delete_row()'>deletRow</button>
+      <button id="showAll" class="btn btn-default btn-lg" onclick='add_row()'>ShowAll</button>
+      <button id="deletRow1" class="btn btn-default btn-lg" onclick='delete_row()'>deletRow</button>
     </div>
+    <hr>
+    <table>
+      <thead>
+        <th>사용자</th>
+        <th>적립횟수</th>
+      </thead>
+      <tbody id="my-Tbody">
+      </tbody>
+    </table>
   </body>
     <!--바디영역-->
     <!--스크립트 영역-->
@@ -152,6 +172,82 @@
       document.getElementById("input_2").value = resett;
     }
     ////////////////////////////////////////////
+    //★세이브 버튼 구현
+    $(function(){
+      //저장버튼
+      $('#saveBtn').click(function(){
+        if(!window.localStorage) {
+          //브라우저 지원 확인
+          alert("현재 브라우저는 지원하지 않습니다.");
+          return false;
+        }
+        //저장하기///////////////////////////////////////////////////////////////////////////////
+        let v = parseInt(document.getElementById("input").value.replace(",",""));
+        let key = parseInt(localStorage.getItem(document.getElementById("input_2").value));
+        let sum = parseInt(v + key);
+        if(localStorage.getItem(document.getElementById("input_2").value) === null){
+        localStorage.setItem(document.getElementById("input_2").value, parseInt(document.getElementById("input").value.replace(",","")));
+      } else {
+       localStorage.setItem(document.getElementById("input_2").value, sum);
+     }
+     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     //날짜 ////////////////////////////////////////
+     let today = new Date();
+     let year = today.getFullYear(); //년도
+     let month = today.getMonth() +1; // 월
+     let date = today.getDate(); // 날짜
+     document.getElementById("img").innerHTML="날짜 : "+year +'/' +month +'/' +date +"<br>" +"사용자 : "+document.getElementById("input_2").value+"<br>" +"사용금액: "+localStorage.getItem(document.getElementById("input_2").value);
+      });
+      /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //삭제 버튼
+      $('#cancelBtn').click(function(){
+        if(!window.localStorage) {
+          //브라우저 지원 확인
+          alert("현재 브라우저는 지원하지 않습니다.");
+          return false;
+        }
+        let v = parseInt(document.getElementById("input").value.replace(",",""));
+        let key = parseInt(localStorage.getItem(document.getElementById("input_2").value));
+        let sum = parseInt(key-v);
+        if(localStorage.getItem(document.getElementById("input_2").value) === null){
+          return false;
+      } else {
+       localStorage.setItem(document.getElementById("input_2").value, sum);
+     }
+     let today = new Date();
+     let year = today.getFullYear(); //년도
+     let month = today.getMonth() +1; // 월
+     let date = today.getDate(); // 날짜
+     document.getElementById("img").innerHTML="날짜 : "+year +'/' +month +'/' +date +"<br>" +"사용자 : "+document.getElementById("input_2").value +"<br>" +"사용금액: "+localStorage.getItem(document.getElementById("input_2").value);
+      });
+      /////////////////////////////////////////////////////////////////////////////////////////////
+      //로컬 삭제 부분
+      $('#deletBtn').click(function(){
+        var x = document.getElementById("input_2").value;
+        localStorage.removeItem(x);
+      });
+
+      })
+      /////////////////////////여기까지가 제이쿼리 버튼 부분 /////////////////////////////////////////////////////
+      ////////////////////////////////////////////
+      //사용자 전체 불러오기 ./ 삭제 버튼
+      function add_row() {
+        for(let i=0; i<localStorage.length; i++) {
+          let key = localStorage.key(i);
+          var my_tbody = document.getElementById("my-Tbody");
+          var row = my_tbody.insertRow( my_tbody.rows.length );
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          cell1.innerHTML= `${key}`;
+          cell2.innerHTML=`${localStorage.getItem(key)}`;
+                }
+          }
+    //행 삭제 버튼
+        function delete_row() {
+          var my_tbody = document.getElementById('my-Tbody');
+          my_tbody.deleteRow( my_tbody.rows.length-1 ); // 하단부터 삭제
+        }
+    ///////////////////////////////////////////////////////
     </script>
     <!--스크립트 영역 -->
 </html>
